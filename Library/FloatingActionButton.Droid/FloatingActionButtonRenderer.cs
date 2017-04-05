@@ -43,7 +43,7 @@ namespace FAB.Droid
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == FloatingActionButton.SourceProperty.PropertyName)
+            if (e.PropertyName == FloatingActionButton.SizeProperty.PropertyName)
             {
                 this.UpdateControlForSize();
             }
@@ -138,7 +138,7 @@ namespace FAB.Droid
         private void SetRippleColor()
         {
             var rippleColor = Element.RippleColor.ToAndroid();
-            Control.RippleColor = rippleColor;
+            Control.SetRippleColor(rippleColor);
         }
 
         private void SetHasShadow()
@@ -165,7 +165,7 @@ namespace FAB.Droid
 
                 (this.Context as Activity).RunOnUiThread(() =>
                 {
-                    this.Control.SetImageBitmap(bitmap);
+                    this.Control?.SetImageBitmap(bitmap);
                 });
             });
         }
