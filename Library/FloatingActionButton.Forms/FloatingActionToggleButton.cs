@@ -6,15 +6,15 @@ namespace FAB.Forms
 {
     public class FloatingActionToggleButton : FloatingActionButton
     {
-        public static readonly BindableProperty CheckedProperty = BindableProperty.Create("Checked", typeof(bool), typeof(FloatingActionToggleButton), false);
+        public static readonly BindableProperty CheckedProperty = BindableProperty.Create(nameof(Checked), typeof(bool), typeof(FloatingActionToggleButton), false);
 
-        public static readonly BindableProperty CheckedColorProperty = BindableProperty.Create("CheckedColor", typeof(Color), typeof(FloatingActionToggleButton), Color.Blue);
+        public static readonly BindableProperty CheckedColorProperty = BindableProperty.Create(nameof(CheckedColor), typeof(Color), typeof(FloatingActionToggleButton), Color.Blue);
 
-        public static readonly BindableProperty UnCheckedColorProperty = BindableProperty.Create("UnCheckedColor", typeof(Color), typeof(FloatingActionToggleButton), Color.White);
+        public static readonly BindableProperty UnCheckedColorProperty = BindableProperty.Create(nameof(UnCheckedColor), typeof(Color), typeof(FloatingActionToggleButton), Color.White);
 
-        public static readonly BindableProperty CheckedImageProperty = BindableProperty.Create("CheckedImage", typeof(ImageSource), typeof(FloatingActionToggleButton), null);
+        public static readonly BindableProperty CheckedImageProperty = BindableProperty.Create(nameof(CheckedImage), typeof(ImageSource), typeof(FloatingActionToggleButton));
 
-        public static readonly BindableProperty UnCheckedImageProperty = BindableProperty.Create("UnCheckedImage", typeof(ImageSource), typeof(FloatingActionToggleButton), null);
+        public static readonly BindableProperty UnCheckedImageProperty = BindableProperty.Create(nameof(UnCheckedImage), typeof(ImageSource), typeof(FloatingActionToggleButton));
 
         public bool Checked
         {

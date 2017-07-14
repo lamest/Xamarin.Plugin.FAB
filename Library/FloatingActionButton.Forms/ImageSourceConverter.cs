@@ -1,6 +1,5 @@
 ﻿using System;
 using Xamarin.Forms;
-using System.Globalization;
 
 namespace FAB.Forms
 {
@@ -11,27 +10,18 @@ namespace FAB.Forms
             return sourceType == typeof(string);
         }
 
-        public override object ConvertFrom(CultureInfo culture, object value)
+        public override object ConvertFromInvariantString(string value)
         {
             if (value == null)
             {
                 return null;
             }
 
-            var str = value as string;
-            if (str != null)
+            if (!Uri.TryCreate(value, UriKind.Absolute, out Uri result) || result.Scheme == "file")
             {
-                Uri result;
-                if (!Uri.TryCreate(str, UriKind.Absolute, out result) || !(result.Scheme != "file"))
-                {
-                    return ImageSource.FromFile(str);
-                }
-                return ImageSource.FromUri(result);
+                return ImageSource.FromFile(value);
             }
-            throw new InvalidOperationException(
-                string.Format("Conversion failed: \"{0}\" into {1}",
-                    new[] { value, typeof(ImageSource) }));
+            return ImageSource.FromUri(result);
         }
     }
 }
-

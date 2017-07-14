@@ -1,99 +1,96 @@
 ﻿using System;
-using Xamarin.Forms;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace FAB.Forms
 {
     public class FloatingActionButton : View
     {
-        public static readonly BindableProperty SizeProperty = BindableProperty.Create<FloatingActionButton, FabSize>(mn => mn.Size, FabSize.Normal);
+        public static readonly BindableProperty SizeProperty = BindableProperty.Create(nameof(Size), typeof(FabSize), typeof(FloatingActionButton), FabSize.Normal);
 
-        public static readonly BindableProperty NormalColorProperty = BindableProperty.Create<FloatingActionButton, Color>(mn => mn.NormalColor, Color.Blue);
+        public static readonly BindableProperty NormalColorProperty = BindableProperty.Create(nameof(NormalColor), typeof(Color), typeof(FloatingActionButton), Color.Blue);
 
-        public static readonly BindableProperty RippleColorProperty = BindableProperty.Create<FloatingActionButton, Color>(mn => mn.RippleColor, Color.Gray);
+        public static readonly BindableProperty RippleColorProperty = BindableProperty.Create(nameof(RippleColor), typeof(Color), typeof(FloatingActionButton), Color.Gray);
 
-        public static readonly BindableProperty DisabledColorProperty = BindableProperty.Create<FloatingActionButton, Color>(mn => mn.DisabledColor, Color.Gray);
+        public static readonly BindableProperty DisabledColorProperty = BindableProperty.Create(nameof(DisabledColor), typeof(Color), typeof(FloatingActionButton), Color.Gray);
 
-        public static readonly BindableProperty HasShadowProperty = BindableProperty.Create<FloatingActionButton, bool>(mn => mn.HasShadow, true);
+        public static readonly BindableProperty HasShadowProperty = BindableProperty.Create(nameof(HasShadow), typeof(bool), typeof(FloatingActionButton), true);
 
-        public static readonly BindableProperty SourceProperty = BindableProperty.Create<FloatingActionButton, ImageSource>(mn => mn.Source, null);
+        public static readonly BindableProperty SourceProperty = BindableProperty.Create(nameof(Source), typeof(ImageSource), typeof(FloatingActionButton));
 
-        public static readonly BindableProperty CommandProperty = BindableProperty.Create<FloatingActionButton, ICommand>(mn => mn.Command, null, propertyChanged: HandleCommandChanged);
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(FloatingActionButton), null, propertyChanged: HandleCommandChanged);
 
-        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create<FloatingActionButton, object>(mn => mn.CommandParameter, null);
+        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(FloatingActionButton));
 
-        public static readonly BindableProperty AnimateOnSelectionProperty = BindableProperty.Create<FloatingActionButton, bool>(mn => mn.AnimateOnSelection, true);
-
-        public event EventHandler<EventArgs> Clicked;
+        public static readonly BindableProperty AnimateOnSelectionProperty = BindableProperty.Create(nameof(AnimateOnSelection), typeof(bool), typeof(FloatingActionButton), true);
 
         public FabSize Size
         {
-            get { return (FabSize)this.GetValue(SizeProperty); }
-            set { this.SetValue(SizeProperty, value); }
+            get => (FabSize) GetValue(SizeProperty);
+            set => SetValue(SizeProperty, value);
         }
 
         public Color NormalColor
         {
-            get { return (Color)this.GetValue(NormalColorProperty); }
-            set { this.SetValue(NormalColorProperty, value); }
+            get => (Color) GetValue(NormalColorProperty);
+            set => SetValue(NormalColorProperty, value);
         }
 
         public Color RippleColor
         {
-            get { return (Color)this.GetValue(RippleColorProperty); }
-            set { this.SetValue(RippleColorProperty, value); }
+            get => (Color) GetValue(RippleColorProperty);
+            set => SetValue(RippleColorProperty, value);
         }
 
         public Color DisabledColor
         {
-            get { return (Color)this.GetValue(DisabledColorProperty); }
-            set { this.SetValue(DisabledColorProperty, value); }
+            get => (Color) GetValue(DisabledColorProperty);
+            set => SetValue(DisabledColorProperty, value);
         }
 
         public bool HasShadow
         {
-            get { return (bool)this.GetValue(HasShadowProperty); }
-            set { this.SetValue(HasShadowProperty, value); }
+            get => (bool) GetValue(HasShadowProperty);
+            set => SetValue(HasShadowProperty, value);
         }
 
         [TypeConverter(typeof(ImageSourceConverter))]
         public ImageSource Source
         {
-            get { return (ImageSource)this.GetValue(SourceProperty); }
-            set { this.SetValue(SourceProperty, value); }
+            get => (ImageSource) GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
         }
 
         public ICommand Command
         {
-            get { return (ICommand)this.GetValue(CommandProperty); }
-            set { this.SetValue(CommandProperty, value); }
+            get => (ICommand) GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
 
         public object CommandParameter
         {
-            get { return (object)this.GetValue(CommandParameterProperty); }
-            set { this.SetValue(CommandParameterProperty, value); }
+            get => (object) GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
 
         public bool AnimateOnSelection
         {
-            get { return (bool)this.GetValue(AnimateOnSelectionProperty); }
-            set { this.SetValue(AnimateOnSelectionProperty, value); }
+            get => (bool) GetValue(AnimateOnSelectionProperty);
+            set => SetValue(AnimateOnSelectionProperty, value);
         }
+
+        public event EventHandler<EventArgs> Clicked;
 
         internal virtual void SendClicked()
         {
-            var param = this.CommandParameter;
+            var param = CommandParameter;
 
-            if (this.Command != null && this.Command.CanExecute(param))
+            if (Command != null && Command.CanExecute(param))
             {
-                this.Command.Execute(param);
+                Command.Execute(param);
             }
 
-            if (this.Clicked != null)
-            {
-                this.Clicked(this, EventArgs.Empty);
-            }
+            Clicked?.Invoke(this, EventArgs.Empty);
         }
 
         private void InternalHandleCommand(ICommand oldValue, ICommand newValue)
@@ -101,9 +98,9 @@ namespace FAB.Forms
             // TOOD: attach to CanExecuteChanged
         }
 
-        private static void HandleCommandChanged(BindableObject bindable, ICommand oldValue, ICommand newValue)
+        private static void HandleCommandChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            (bindable as FloatingActionButton).InternalHandleCommand(oldValue, newValue);
+            (bindable as FloatingActionButton).InternalHandleCommand((ICommand) oldValue, (ICommand) newValue);
         }
     }
 }
